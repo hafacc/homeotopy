@@ -4,13 +4,13 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 import numpy as np
-from numpy.typing import NDArray
+from numpy.typing import ArrayLike, NDArray
 
 
 class Topology(ABC):
     """An abstract topological space.
 
-    For this library to work, each Topologiy should define a homeomorphism from
+    For this library to work, each Topology should define a homeomorphism from
     it to the inf-norm ball.
 
     Remarks
@@ -20,7 +20,7 @@ class Topology(ABC):
     """
 
     @abstractmethod
-    def to_inf_ball(self, points: NDArray[np.float64]) -> NDArray[np.float64]:
+    def to_inf_ball(self, points: NDArray[np.floating]) -> NDArray[np.floating]:
         """Map a set of points in this topology to the inf-ball.
 
         Parameters
@@ -38,14 +38,14 @@ class Topology(ABC):
         ...  # pragma: no cover
 
     @abstractmethod
-    def from_inf_ball(self, points: NDArray[np.float64]) -> NDArray[np.float64]:
+    def from_inf_ball(self, points: NDArray[np.floating]) -> NDArray[np.floating]:
         """Map a set of points from the inf-ball to this topology.
 
         Parameters
         ----------
         points : (..., d_in)
             A set of points in the inf-norm ball, e.g. -1 < x_i < 1 for points
-            in the open topology, but points on the boarder should be handled as
+            in the open topology, but points on the border should be handled as
             well.
 
         Returns
@@ -75,7 +75,7 @@ class Homeomorphism:
         backward = ~forward
 
         ball_points = ...
-        simplex_points = forwad(ball_points)
+        simplex_points = forward(ball_points)
         backward(simplex_points)
 
     """
@@ -84,10 +84,18 @@ class Homeomorphism:
     target: Topology
 
     def __invert__(self) -> Homeomorphism:
+        """Create the inverse homeomorphism from target to source."""
         return Homeomorphism(self.target, self.source)
 
-    def __call__(self, points: NDArray[np.float64]) -> NDArray[np.float64]:
-        return self.target.from_inf_ball(self.source.to_inf_ball(points))
+    def __call__(self, points: ArrayLike) -> NDArray[np.floating]:
+        """Map points from the source topology to the target topology.
+
+        Non-floating input is converted to float64.
+        """
+        arr = np.asarray(points)
+        if not np.issubdtype(arr.dtype, np.floating):
+            arr = arr.astype(np.float64)
+        return self.target.from_inf_ball(self.source.to_inf_ball(arr))
 
 
 def homeomorphism(source: Topology, target: Topology) -> Homeomorphism:

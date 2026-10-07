@@ -13,7 +13,7 @@ class Sphere(Topology):
 
     This represents all points in R^n s.t. ||x||_2 = 1, except for the point
     (1, 0, ..., 0). That point is considered the boundary of the space, and will
-    be mapped the largest closed point in some other topologies.
+    be mapped to the largest closed point in some other topologies.
 
     Remarks
     -------
@@ -23,14 +23,18 @@ class Sphere(Topology):
     """
 
     # NOTE for both of these we need to special case (1, 0, ..., 0) to (1, 1, ..., 1) and vice versa
-    def to_inf_ball(self, points: NDArray[np.float64]) -> NDArray[np.float64]:
+    def to_inf_ball(self, points: NDArray[np.floating]) -> NDArray[np.floating]:
+        dim = points.shape[-1]
+        if dim < 2:  # noqa: PLR2004
+            raise ValueError(f"sphere points must have at least 2 coordinates: {dim}")
+
         tiny = np.finfo(points.dtype).smallest_normal
         scale = 1 - points[..., :1]
 
-        normal = np.clip(np.tanh(points[..., 1:] / np.maximum(scale, tiny)), -1, 1)
+        normal = np.tanh(points[..., 1:] / np.maximum(scale, tiny))
         return np.where(scale <= 0, 1, normal)
 
-    def from_inf_ball(self, points: NDArray[np.float64]) -> NDArray[np.float64]:
+    def from_inf_ball(self, points: NDArray[np.floating]) -> NDArray[np.floating]:
         big = np.finfo(points.dtype).max
         with np.errstate(divide="ignore"):
             plane = np.arctanh(points)
@@ -45,5 +49,5 @@ class Sphere(Topology):
 
 @cache
 def sphere() -> Sphere:
-    """Create a topology fot the unit sphere."""
+    """Create a topology for the unit sphere."""
     return Sphere()

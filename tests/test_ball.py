@@ -61,5 +61,11 @@ def test_inf() -> None:
 
 def test_invalid_balls() -> None:
     """Exception thrown when p is invalid."""
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="greater than 0"):
         homeotopy.ball(0)
+
+
+def test_nan_ball() -> None:
+    """Exception thrown when p is nan."""
+    with pytest.raises(ValueError, match="greater than 0"):
+        homeotopy.ball(float("nan"))

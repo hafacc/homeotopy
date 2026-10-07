@@ -6,7 +6,7 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12"
-dependencies = ["numba>=0.61.0", "numpy>=2.0"]
+dependencies = ["numpy>=2.0"]
 keywords = [
     "homeomorphism",
     "sphere",
@@ -40,7 +40,21 @@ build-backend = "hatchling.build"
 strict = ["homeotopy", "tests"]
 
 [tool.ruff.lint]
-extend-select = ["I", "D", "A", "B", "W", "PL", "UP", "FIX"]
+extend-select = [
+    "I",
+    "D",
+    "A",
+    "B",
+    "W",
+    "PL",
+    "UP",
+    "FIX",
+    "NPY",
+    "RUF",
+    "SIM",
+    "PT",
+    "PGH",
+]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"

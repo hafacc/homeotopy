@@ -17,9 +17,9 @@ keywords = [
 ]
 
 [project.urls]
-homepage = "https://github.com/hafaio/homeotopy"
-documentation = "https://hafaio.github.io/homeotopy"
-repository = "https://github.com/hafaio/homeotopy"
+homepage = "https://github.com/hafacc/homeotopy"
+documentation = "https://hafa.cc/homeotopy"
+repository = "https://github.com/hafacc/homeotopy"
 
 [dependency-groups]
 dev = [

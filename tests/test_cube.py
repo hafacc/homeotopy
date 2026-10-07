@@ -23,4 +23,5 @@ def test_random() -> None:
     inf_ball_points = rng.uniform(-1, 1, (3, 4, 5))
     cube_points = cube.from_inf_ball(inf_ball_points)
     assert np.allclose(cube.to_inf_ball(cube_points), inf_ball_points)
-    assert np.all(0 <= cube_points) and np.all(cube_points <= 1)
+    assert np.all(cube_points >= 0)
+    assert np.all(cube_points <= 1)

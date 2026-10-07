@@ -1,4 +1,4 @@
-# Homotopy
+# Homeotopy
 
 [![build](https://github.com/hafacc/homeotopy/actions/workflows/build.yml/badge.svg)](https://github.com/hafacc/homeotopy/actions/workflows/build.yml)
 [![pypi](https://img.shields.io/pypi/v/homeotopy)](https://pypi.org/project/homeotopy/)
@@ -16,9 +16,12 @@ pip install homeotopy
 ## Usage
 
 ```py
+import numpy as np
+
 import homeotopy
 
-points = ...
+rng = np.random.default_rng(0)
+points = rng.dirichlet(np.ones(4), 10)  # 10 points on the simplex in R^4
 # create a mapping from the simplex to the surface of the sphere
 mapping = homeotopy.homeomorphism(homeotopy.simplex(), homeotopy.sphere())
 sphere_points = mapping(points)

@@ -3,9 +3,9 @@
 import sys
 from datetime import UTC, datetime
 from importlib.metadata import version as package_version
-from os import path
+from pathlib import Path
 
-sys.path.append(path.abspath(".."))
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 extensions = [
     "sphinx.ext.coverage",

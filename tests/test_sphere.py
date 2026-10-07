@@ -1,6 +1,7 @@
 """Tests for sphere projection."""
 
 import numpy as np
+import pytest
 
 import homeotopy
 
@@ -24,3 +25,10 @@ def test_random() -> None:
     sphere_points = sphere.from_inf_ball(inf_ball_points)
     assert np.allclose(sphere.to_inf_ball(sphere_points), inf_ball_points)
     assert np.allclose(np.linalg.norm(sphere_points, 2, -1), 1)
+
+
+def test_too_few_dimensions() -> None:
+    """Exception thrown when sphere points have fewer than 2 coordinates."""
+    sphere = homeotopy.sphere()
+    with pytest.raises(ValueError, match="at least 2 coordinates"):
+        sphere.to_inf_ball(np.ones((3, 1)))

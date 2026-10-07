@@ -11,14 +11,14 @@ from ._homeomorphism import Topology
 class Cube(Topology):
     """The topology of the unit hyper cube.
 
-    This represents all points in R^n s.t 0 < x_i < 1, although the boundary
+    This represents all points in R^n s.t. 0 < x_i < 1, although the boundary
     should also work.
     """
 
-    def to_inf_ball(self, points: NDArray[np.float64]) -> NDArray[np.float64]:
+    def to_inf_ball(self, points: NDArray[np.floating]) -> NDArray[np.floating]:
         return np.clip(points * 2 - 1, -1, 1)
 
-    def from_inf_ball(self, points: NDArray[np.float64]) -> NDArray[np.float64]:
+    def from_inf_ball(self, points: NDArray[np.floating]) -> NDArray[np.floating]:
         return np.clip((points + 1) / 2, 0, 1)
 
 

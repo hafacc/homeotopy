@@ -2,9 +2,9 @@
 
 This library is based around a set of `Topologies`. Calling `homeomorphism` with
 two Topologies creates a homeomorphism from one topology to the other.
-Topoligies should specify their domains, but where unspecified, the topoligies
+Topologies should specify their domains, but where unspecified, the topologies
 try to conform to a reasonable standard domain. The homeomorphism should work
-for closed set elements too, but thos elements may not be bijective.
+for closed set elements too, but those elements may not be bijective.
 
 Remarks
 -------
@@ -12,7 +12,7 @@ It's probably important to note that floating point numbers are not real
 numbers, and so none of these are really bijective at all.
 
 Also note that this library does not define homeotopies. It's just named this
-have to "py" in the name.
+to have "py" in the name.
 """
 
 from ._ball import Ball, ball

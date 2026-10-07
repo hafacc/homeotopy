@@ -9,7 +9,7 @@ from ._homeomorphism import Topology
 
 @dataclass(frozen=True, slots=True)
 class Plane(Topology):
-    """The topology of the euclidian plane.
+    """The topology of the Euclidean plane.
 
     This represents all points in R^n, but boundary points map to inf.
 
@@ -19,13 +19,13 @@ class Plane(Topology):
     at the "center" of the space mapped to (0, 0, ..., 0).
     """
 
-    def to_inf_ball(self, points: NDArray[np.float64]) -> NDArray[np.float64]:
+    def to_inf_ball(self, points: NDArray[np.floating]) -> NDArray[np.floating]:
         info = np.finfo(points.dtype)
         # max and inf will both get promoted to 1
         clipped = np.clip(points, info.min, info.max)
         return clipped / (1 + np.abs(clipped))
 
-    def from_inf_ball(self, points: NDArray[np.float64]) -> NDArray[np.float64]:
+    def from_inf_ball(self, points: NDArray[np.floating]) -> NDArray[np.floating]:
         clipped = np.clip(points, -1, 1)
         # this triggers at -1 and 1
         with np.errstate(divide="ignore"):
@@ -34,5 +34,5 @@ class Plane(Topology):
 
 @cache
 def plane() -> Plane:
-    """Create a topology of the euclidian plane."""
+    """Create a topology of the Euclidean plane."""
     return Plane()
